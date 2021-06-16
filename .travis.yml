@@ -1,5 +1,7 @@
 dist: xenial
-language: bash
+language: node_js
+node_js:
+- lts/*
 branches:
   only:
   - master
