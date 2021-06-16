@@ -1,18 +1,29 @@
-language: node_js
-
-node_js:
-  - '14'
-
-notifications:
-  email:
-    recipients:
-      - artjom.kurapov@pipedrive.com
-    on_success: change
-    on_failure: change
-
-script: 'npm run test-travis'
-after_success: 'npm run coverage'
-
-after_script: 'cat ./coverage/lcov.info'
-
-sudo: false
+dist: xenial
+language: bash
+branches:
+  only:
+  - master
+  - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
+env:
+  global:
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - PATH=$PATH:${HOME}/google-cloud-sdk/bin
+  - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+  - HELM_VERSION=v3.5.4
+  - REGION=us-central1
+  - GRAPHQL_REPO_NAME=graphql-schema-registry
+  - GRAPHQL_REPO_ORG=pipedrive
+  - GRAPHQL_REPO_TAG=1.2.4
+  - DOCKER_IMAGE_NAME=graphql-schema-registry
+  - DOCKER_IMAGE_URL=ycedillos/graphql-schema-registry
+stages:
+- merge
+before_install:
+- chmod 764 ci-cd/scripts/deployment.sh
+jobs:
+  include:
+  - stage: merge
+    if: branch IN (master) AND type = push
+    name: Build Container
+    script:
+    - "./ci-cd/scripts/deployment.sh"
