@@ -1,6 +1,10 @@
 #!/bin/bash
 
 install_graphql_scheme_registry () {
+
+  npm install
+  npm run build
+
   docker build -f Dockerfile \
               --no-cache \
               --build-arg env=production \
