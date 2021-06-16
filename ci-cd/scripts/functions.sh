@@ -10,5 +10,4 @@ install_graphql_scheme_registry () {
 
   docker push ycedillos/graphql-schema-registry:1.2.4
 
-
 }
