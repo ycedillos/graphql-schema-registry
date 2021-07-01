@@ -17,7 +17,8 @@ FROM node:14-alpine as builder-app
 ARG env=production
 ENV npm_config_cache=/tmp/.npm
 ENV NODE_ENV=${env}
-RUN mkdir -p /tmp/.npm /app && chown nobody:nobody /tmp/.npm /app
+RUN mkdir -p /tmp/.npm /app && chown -R nobody:nobody /tmp/.npm /app
+RUN chown -R nobody:nobody /tmp/.npm
 COPY --from=builder-client /tmp/.npm /tmp/.npm
 WORKDIR /app
 USER nobody
