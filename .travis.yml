@@ -25,7 +25,7 @@ before_install:
 jobs:
   include:
   - stage: merge
-    if: branch IN (master) AND type = push
+    if: branch IN (master) AND type = pull_request
     name: Build Container
     script:
     - "./ci-cd/scripts/deployment.sh"
